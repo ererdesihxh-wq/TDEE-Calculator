@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is TDEE? How to Calculate Total Daily Energy Expenditure Accurately</title>
+    <meta name="description" content="Learn what TDEE (Total Daily Energy Expenditure) is, how it's calculated using BMR and activity level, and why it's crucial for weight management. Discover the Mifflin-St Jeor and Katch-McArdle formulas.">
+    <meta name="keywords" content="what is tdee, how to calculate tdee, total daily energy expenditure, tdee calculation, bmr vs tdee">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #385d8a;
+            --secondary: #6bbf8a;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f5f7fa; color: var(--dark); line-height: 1.7; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 2rem 0 0 0; margin-bottom: 2rem; }
+        .header-content { text-align: center; padding: 0 20px 2rem 20px; }
+        .logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        .article-header { margin-bottom: 2.5rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .meta { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+        
+        /* Navigation Styles */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 0 20px;
+        }
+        
+        .nav-menu li {
+            margin: 0;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+        
+        .content-card { background: white; border-radius: 10px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        h2 { color: var(--primary-dark); margin: 2.5rem 0 1.2rem; font-size: 1.8rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        h3 { color: var(--dark); margin: 1.8rem 0 0.8rem; font-size: 1.3rem; }
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin: 1rem 0 1rem 2rem; }
+        li { margin-bottom: 0.5rem; }
+        .info-box { background: #f0f7ff; border-left: 4px solid var(--primary); padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .formula-box { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; font-family: monospace; border: 1px solid #eee; }
+        .btn { display: inline-block; background: var(--primary); color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 10px; transition: var(--transition); }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav {
+            margin: 15px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            h1 { font-size: 2rem; }
+            .content-card { padding: 25px; }
+            .nav-menu {
+                justify-content: center;
+                gap: 3px;
+            }
+            
+            .nav-menu a {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-menu a i {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-menu a {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+        
+        .toc { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+        .toc h3 { margin-top: 0; }
+        .toc ul { margin: 0.5rem 0 0 1.5rem; }
+        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        
+        /* CTA Box */
+        .cta-box { 
+            background: linear-gradient(to right, rgba(107,191,138,0.1), rgba(74,111,165,0.1)); 
+            border: 2px solid var(--secondary); 
+            padding: 2rem; 
+            border-radius: 10px; 
+            text-align: center; 
+            margin: 2.5rem 0;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">TheTDEEcalculator.net</div>
+                <div class="article-header">
+                    <h1>What is TDEE? The Complete Guide to Total Daily Energy Expenditure</h1>
+                    <div class="meta"><i class="far fa-clock"></i> Updated: January 2026 | <i class="far fa-file-alt"></i> Comprehensive Guide</div>
+                </div>
+            </div>
+            
+            <!-- 导航栏 -->
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="what-is-tdee.html" class="active"><i class="fas fa-book"></i> What is TDEE?</a></li>
+                    <li><a href="tdee-for-weight-loss.html"><i class="fas fa-weight"></i> Weight Loss Guide</a></li>
+                    <li><a href="tdee-calculator-for-women.html"><i class="fas fa-venus"></i> Women's Guide</a></li>
+                    <li><a href="accurate-tdee-calculator.html"><i class="fas fa-search"></i> Accuracy Guide</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-card">
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3><i class="fas fa-list"></i> In This Guide:</h3>
+                <ul>
+                    <li><a href="#what-is">What Exactly is TDEE?</a></li>
+                    <li><a href="#components">The 4 Components of TDEE</a></li>
+                    <li><a href="#calculate">How TDEE is Calculated</a></li>
+                    <li><a href="#formulas">BMR Formulas Compared</a></li>
+                    <li><a href="#accuracy">How Accurate Are TDEE Calculations?</a></li>
+                    <li><a href="#use">How to Use Your TDEE for Weight Goals</a></li>
+                </ul>
+            </div>
+
+            <!-- Article Content -->
+            <p>If you're trying to lose weight, gain muscle, or simply understand your body's energy needs, you've likely encountered the term <strong>TDEE</strong>. But what exactly is Total Daily Energy Expenditure, and why is it the single most important number for managing your weight?</p>
+            
+            <h2 id="what-is">What Exactly is TDEE?</h2>
+            <p><strong>Total Daily Energy Expenditure (TDEE)</strong> represents the total number of calories your body burns in a 24-hour period. It encompasses <em>everything</em>—from the energy required to keep your heart beating to the calories burned during your workout. According to the <a href="https://www.ncbi.nlm.nih.gov/books/NBK279077/" target="_blank" rel="noopener">National Institutes of Health</a>, understanding your TDEE is fundamental to energy balance, which determines whether you lose, maintain, or gain weight.</p>
+            
+            <div class="info-box">
+                <p><strong>Key Insight:</strong> Your TDEE is not a fixed number. It changes daily based on activity, diet, sleep, and even stress levels. Think of it as your body's daily "calorie budget."</p>
+            </div>
+            
+            <h2 id="components">The 4 Components of TDEE</h2>
+            <p>TDEE is composed of four main elements, each contributing to your total calorie burn:</p>
+            
+            <h3>1. Basal Metabolic Rate (BMR)</h3>
+            <p><strong>BMR accounts for 60-75% of your TDEE</strong> and represents the calories burned at complete rest to maintain vital functions like breathing, circulation, and cell production. As the <a href="https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/metabolism/art-20046508" target="_blank" rel="noopener">Mayo Clinic explains</a>, BMR is largely determined by your body composition, age, sex, and genetics.</p>
+            
+            <h3>2. Thermic Effect of Food (TEF)</h3>
+            <p>TEF (about 10% of TDEE) is the energy required to digest, absorb, and process nutrients. Protein has the highest thermic effect (20-30%), while fats have the lowest (0-3%), as noted in research published in the <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0174-y" target="_blank" rel="noopener">Journal of the International Society of Sports Nutrition</a>.</p>
+            
+            <h3>3. Exercise Activity Thermogenesis (EAT)</h3>
+            <p>These are calories burned during structured exercise like running, weightlifting, or cycling. While important for health, EAT typically represents only 5-10% of TDEE for most people.</p>
+            
+            <h3>4. Non-Exercise Activity Thermogenesis (NEAT)</h3>
+            <p><strong>NEAT is the hidden variable</strong>—calories burned through daily activities like walking, fidgeting, standing, and household chores. Research in the journal <em>Obesity</em> found NEAT can vary by up to 2,000 calories per day between individuals with similar stats.</p>
+            
+            <h2 id="calculate">How TDEE is Calculated</h2>
+            <p>The standard approach to calculating TDEE follows this process:</p>
+            <ol>
+                <li><strong>Calculate BMR</strong> using a validated equation (see below)</li>
+                <li><strong>Multiply BMR by an Activity Multiplier</strong> that reflects your daily movement</li>
+                <li><strong>Account for TEF</strong> (often included in the multiplier or calculated separately)</li>
+            </ol>
+            
+            <div class="formula-box">
+                <strong>TDEE Formula:</strong> TDEE = BMR × Activity Multiplier<br>
+                <strong>Activity Multipliers:</strong><br>
+                • Sedentary (office job, little exercise): 1.2<br>
+                • Lightly Active (light exercise 1-3 days/week): 1.375<br>
+                • Moderately Active (moderate exercise 3-5 days/week): 1.55<br>
+                • Very Active (hard exercise 6-7 days/week): 1.725<br>
+                • Extremely Active (athlete, physical job): 1.9
+            </div>
+            
+            <h2 id="formulas">BMR Formulas Compared: Which is Most Accurate?</h2>
+            
+            <h3>Mifflin-St Jeor Equation (Most Recommended)</h3>
+            <p>Considered the most accurate for general populations, this 1990 formula published in the <em>Journal of the American Dietetic Association</em>:</p>
+            <div class="formula-box">
+                <strong>For Men:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age) + 5<br>
+                <strong>For Women:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age) - 161
+            </div>
+            
+            <h3>Harris-Benedict Equation (Original 1919 Formula)</h3>
+            <p>While historically significant, studies show it overestimates BMR by about 5% on average.</p>
+            
+            <h3>Katch-McArdle Formula (Best for Known Body Fat %)</h3>
+            <p>If you know your body fat percentage, this formula is more accurate as it accounts for lean mass:</p>
+            <div class="formula-box">
+                BMR = 370 + (21.6 × Lean Body Mass in kg)<br>
+                Lean Body Mass = Weight × (1 - Body Fat Percentage)
+            </div>
+            
+            <h2 id="accuracy">How Accurate Are TDEE Calculations?</h2>
+            <p>Online TDEE calculators provide <strong>estimates, not measurements</strong>. The gold standard for measuring TDEE is the doubly labeled water method, but this is expensive and impractical for daily use.</p>
+            
+            <p>According to a <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4391806/" target="_blank" rel="noopener">2015 meta-analysis</a>, predictive equations can be within 10% of actual energy expenditure for groups but may vary more for individuals. Key factors affecting accuracy include:</p>
+            <ul>
+                <li><strong>Honest activity assessment</strong> (most people overestimate)</li>
+                <li><strong>Body composition</strong> (muscle burns more than fat)</li>
+                <li><strong>Genetic and hormonal factors</strong></li>
+                <li><strong>Adaptive thermogenesis</strong> (metabolism adjusts during dieting)</li>
+            </ul>
+            
+            <h2 id="use">How to Use Your TDEE for Weight Goals</h2>
+            
+            <h3>For Weight Loss</h3>
+            <p>Create a <strong>calorie deficit of 15-25% below your TDEE</strong>. For example, if your TDEE is 2,400 calories, aim for 1,800-2,040 calories daily. The <a href="https://www.cdc.gov/healthyweight/losing_weight/index.html" target="_blank" rel="noopener">CDC recommends</a> a gradual loss of 1-2 pounds per week for sustainable results.</p>
+            
+            <h3>For Muscle Gain</h3>
+            <p>Aim for a <strong>surplus of 5-10% above your TDEE</strong>. Combine with resistance training and adequate protein (1.6-2.2g per kg of body weight) to maximize muscle growth while minimizing fat gain.</p>
+            
+            <h3>For Weight Maintenance</h3>
+            <p>Eat at or near your calculated TDEE. Monitor your weight weekly—if it's stable, you've found your maintenance level.</p>
+            
+            <div class="cta-box">
+                <h3><i class="fas fa-calculator"></i> Calculate Your Personal TDEE</h3>
+                <p>Now that you understand the theory, it's time to calculate your personal TDEE using our advanced calculator, which implements multiple formulas and provides goal-based recommendations.</p>
+                <a href="index.html" class="btn">Use Our TDEE Calculator</a>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2 class="cta-title">Ready to Apply Your TDEE Knowledge?</h2>
+                <p>Now that you understand what TDEE is, explore our practical guides to put this knowledge into action.</p>
+                <div class="cta-buttons">
+                    <a href="tdee-for-weight-loss.html" class="cta-btn">How to Lose Weight Using TDEE</a>
+                    <a href="tdee-calculator-for-women.html" class="cta-btn">Women's TDEE Guide</a>
+                    <a href="accurate-tdee-calculator.html" class="cta-btn primary">Are TDEE Calculators Accurate?</a>
+                </div>
+            </div>
+            
+            <h3>Next Steps: Beyond the Calculation</h3>
+            <p>Remember that your calculated TDEE is a <strong>starting point, not a permanent number</strong>. Track your weight and adjust based on results over 3-4 weeks. If you're not seeing expected progress, adjust your calorie target by 100-200 calories and reassess.</p>
+            
+            <p>For more specific guidance, explore our detailed guides on <a href="tdee-for-weight-loss.html">TDEE for weight loss</a> or <a href="accurate-tdee-calculator.html">improving calculation accuracy</a>.</p>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>© 2026 TheTDEEcalculator.net | This information is for educational purposes. Consult a healthcare professional for personalized advice.</p>
+        <div class="footer-nav">
+            <a href="index.html">Calculator</a> | 
+            <a href="what-is-tdee.html">What is TDEE</a> | 
+            <a href="tdee-for-weight-loss.html">Weight Loss Guide</a> | 
+            <a href="tdee-calculator-for-women.html">Women's Guide</a> |
+            <a href="accurate-tdee-calculator.html">Accuracy Guide</a> |
+            <a href="privacy-policy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms</a> |
+            <a href="contact.html">Contact</a>
+        </div>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
+            TDEE calculations are estimates. Individual results may vary based on unique physiology.
+        </p>
+    </footer>
+</body>
+</html>

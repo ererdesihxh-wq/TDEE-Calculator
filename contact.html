@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - TheTDEEcalculator.net</title>
+    <meta name="description" content="Contact TheTDEEcalculator.net team. Send us feedback, questions, or partnership inquiries about our TDEE calculator and health resources.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #385d8a;
+            --secondary: #6bbf8a;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f5f7fa; color: var(--dark); line-height: 1.7; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 3rem 0; margin-bottom: 2rem; text-align: center; }
+        .logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        .logo a { color: white; text-decoration: none; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .meta { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+        
+        .content-card { background: white; border-radius: 10px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        h2 { color: var(--primary-dark); margin: 2rem 0 1.2rem; font-size: 1.8rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        h3 { color: var(--dark); margin: 1.5rem 0 0.8rem; font-size: 1.3rem; }
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin: 1rem 0 1rem 2rem; }
+        li { margin-bottom: 0.5rem; }
+        
+        .info-box { background: #f0f7ff; border-left: 4px solid var(--primary); padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .warning-box { background: #fff5f5; border-left: 4px solid #e74c3c; padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .success-box { background: #f0fff4; border-left: 4px solid var(--secondary); padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        
+        /* Contact Methods */
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid #eee;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .faq-question i {
+            color: var(--primary);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav {
+            margin: 15px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            h1 { font-size: 2rem; }
+            .content-card { padding: 25px; }
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><a href="index.html">TheTDEEcalculator.net</a></div>
+            <h1>Contact Us</h1>
+            <div class="meta"><i class="far fa-envelope"></i> Get in touch with our team</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-card">
+            <p>We value your feedback, questions, and suggestions. Whether you have a technical question about our TDEE calculator, found an error in our content, want to suggest a new feature, or are interested in partnership opportunities, we're here to help.</p>
+            
+            <div class="warning-box">
+                <p><strong>Important:</strong> TheTDEEcalculator.net provides educational information only. We are not medical professionals and cannot provide medical advice. For health concerns, please consult a qualified healthcare provider.</p>
+            </div>
+            
+            <h2>Contact Methods</h2>
+            
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>General Inquiries</h3>
+                    <p>For general questions, feedback, and content suggestions:</p>
+                    <a href="mailto:contact@thetdeecalculator.net" class="btn"><i class="fas fa-paper-plane"></i> contact@thetdeecalculator.net</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3>Technical Support</h3>
+                    <p>Report bugs, technical issues, or calculator problems:</p>
+                    <a href="mailto:support@thetdeecalculator.net" class="btn"><i class="fas fa-tools"></i> support@thetdeecalculator.net</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Business & Partnerships</h3>
+                    <p>For partnership opportunities and business inquiries:</p>
+                    <a href="mailto:partnerships@thetdeecalculator.net" class="btn"><i class="fas fa-briefcase"></i> partnerships@thetdeecalculator.net</a>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <p><strong>Response Time:</strong> We strive to respond to all emails within 3-5 business days. For urgent matters, please include "URGENT" in your subject line.</p>
+            </div>
+            
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span>How accurate is the TDEE calculator?</span>
+                </div>
+                <p>Our TDEE calculator uses scientifically validated formulas (Mifflin-St Jeor and Katch-McArdle) to provide estimates. However, all TDEE calculations are estimates, not measurements. Individual results may vary by 10-20% based on genetics, hormone levels, and other factors. For more information, see our <a href="accurate-tdee-calculator.html">Accuracy Guide</a>.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Can you provide personalized diet or exercise plans?</span>
+                </div>
+                <p>No. TheTDEEcalculator.net provides educational information and tools only. We do not create personalized diet or exercise plans. For personalized guidance, please consult with a registered dietitian, certified personal trainer, or healthcare provider.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span>I found an error in your content. How do I report it?</span>
+                </div>
+                <p>We appreciate when users help us maintain accurate information. Please email <a href="mailto:contact@thetdeecalculator.net">contact@thetdeecalculator.net</a> with the subject line "Content Correction" and include the page URL, the incorrect information, and the correct information with sources if possible.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Can I use your content on my website or in my research?</span>
+                </div>
+                <p>Our content is protected by copyright. For permission to use our content, please contact us with details about how you intend to use it. We generally allow educational and non-commercial use with proper attribution. Commercial use requires explicit permission.</p>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Do you have an API for your calculator?</span>
+                </div>
+                <p>We do not currently offer a public API. If you're interested in integrating our calculator functionality into your application, please contact our partnerships team at <a href="mailto:partnerships@thetdeecalculator.net">partnerships@thetdeecalculator.net</a>.</p>
+            </div>
+            
+            <h2>Send Us a Message</h2>
+            <p>You can also use the form below to send us a message. Please allow 3-5 business days for a response.</p>
+            
+            <form id="contact-form">
+                <div class="form-group">
+                    <label class="form-label" for="name">Your Name *</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Your Email *</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="subject">Subject *</label>
+                    <select id="subject" class="form-control" required>
+                        <option value="">Select a subject</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="feedback">Feedback/Suggestion</option>
+                        <option value="correction">Content Correction</option>
+                        <option value="partnership">Partnership Inquiry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="message">Your Message *</label>
+                    <textarea id="message" class="form-control" required></textarea>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>Note:</strong> This is a demonstration form. To contact us, please use the email addresses provided above.</p>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+            
+            <div class="success-box" id="success-message" style="display: none;">
+                <p><strong>Thank you!</strong> Your message has been received. We'll respond as soon as possible.</p>
+            </div>
+            
+            <h2>Our Commitment</h2>
+            <p>At TheTDEEcalculator.net, we are committed to:</p>
+            <ul>
+                <li>Providing accurate, evidence-based health and fitness information</li>
+                <li>Continuously improving our tools and resources</li>
+                <li>Responding to user feedback and questions in a timely manner</li>
+                <li>Maintaining user privacy and data security</li>
+                <li>Supporting our users in their health and fitness journeys</li>
+            </ul>
+            
+            <div class="info-box">
+                <p><strong>Mailing Address (for legal correspondence only):</strong><br>
+                TheTDEEcalculator.net<br>
+                123 Health & Fitness Avenue<br>
+                Virtual Office, CA 90210<br>
+                United States</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>© 2026 TheTDEEcalculator.net | Providing educational health and fitness resources since 2024.</p>
+        <div class="footer-nav">
+            <a href="index.html">Calculator</a> | 
+            <a href="what-is-tdee.html">What is TDEE</a> | 
+            <a href="tdee-for-weight-loss.html">Weight Loss Guide</a> | 
+            <a href="tdee-calculator-for-women.html">Women's Guide</a> |
+            <a href="accurate-tdee-calculator.html">Accuracy Guide</a> |
+            <a href="privacy-policy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms</a> |
+            <a href="contact.html">Contact</a>
+        </div>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
+            This website provides educational information only. Consult healthcare professionals for medical advice.
+        </p>
+    </footer>
+
+    <script>
+        // Demo form submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            document.getElementById('success-message').style.display = 'block';
+            
+            // Scroll to success message
+            document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                document.getElementById('contact-form').reset();
+                document.getElementById('success-message').style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

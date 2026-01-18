@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDEE Calculator for Weight Loss: How to Create a Safe Calorie Deficit</title>
+    <meta name="description" content="Step-by-step guide to using your TDEE for weight loss. Learn how to calculate the right calorie deficit, set macros, and avoid metabolic adaptation for sustainable fat loss.">
+    <meta name="keywords" content="tdee calculator for weight loss, tdee calculator weight loss, how to calculate calorie deficit, tdee for fat loss, weight loss calculator">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #385d8a;
+            --secondary: #6bbf8a;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f5f7fa; color: var(--dark); line-height: 1.7; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 2rem 0 0 0; margin-bottom: 2rem; }
+        .header-content { text-align: center; padding: 0 20px 2rem 20px; }
+        .logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .meta { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+        
+        /* Navigation Styles */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 0 20px;
+        }
+        
+        .nav-menu li {
+            margin: 0;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+        
+        .content-card { background: white; border-radius: 10px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        h2 { color: #c0392b; margin: 2.5rem 0 1.2rem; font-size: 1.8rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        h3 { color: var(--dark); margin: 1.8rem 0 0.8rem; font-size: 1.3rem; }
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin: 1rem 0 1rem 2rem; }
+        li { margin-bottom: 0.5rem; }
+        .warning-box { background: #fff5f5; border-left: 4px solid var(--danger); padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .success-box { background: #f0fff4; border-left: 4px solid var(--secondary); padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .example-box { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #eee; }
+        .step-box { background: linear-gradient(to right, #f0f7ff, #f8f9fa); border: 2px dashed var(--primary); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+        .step-number { display: inline-block; background: var(--primary); color: white; width: 30px; height: 30px; text-align: center; line-height: 30px; border-radius: 50%; margin-right: 10px; }
+        .btn { display: inline-block; background: #c0392b; color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 10px; transition: var(--transition); }
+        .btn:hover { background: #a93226; transform: translateY(-2px); }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav {
+            margin: 15px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            h1 { font-size: 2rem; }
+            .content-card { padding: 25px; }
+            .nav-menu {
+                justify-content: center;
+                gap: 3px;
+            }
+            
+            .nav-menu a {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-menu a i {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-menu a {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+        
+        .toc { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+        .toc h3 { margin-top: 0; }
+        .toc ul { margin: 0.5rem 0 0 1.5rem; }
+        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        
+        /* CTA Section */
+        .cta-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">TheTDEEcalculator.net</div>
+                <h1>TDEE Calculator for Weight Loss: The Science of Safe Calorie Deficits</h1>
+                <div class="meta"><i class="far fa-clock"></i> Updated: January 2026 | <i class="fas fa-weight"></i> Practical Weight Loss Guide</div>
+            </div>
+            
+            <!-- 导航栏 -->
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="what-is-tdee.html"><i class="fas fa-book"></i> What is TDEE?</a></li>
+                    <li><a href="tdee-for-weight-loss.html" class="active"><i class="fas fa-weight"></i> Weight Loss Guide</a></li>
+                    <li><a href="tdee-calculator-for-women.html"><i class="fas fa-venus"></i> Women's Guide</a></li>
+                    <li><a href="accurate-tdee-calculator.html"><i class="fas fa-search"></i> Accuracy Guide</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-card">
+            <div class="toc">
+                <h3><i class="fas fa-list"></i> What You'll Learn:</h3>
+                <ul>
+                    <li><a href="#deficit">The Right Calorie Deficit for Safe Weight Loss</a></li>
+                    <li><a href="#calculate">How to Calculate Your Weight Loss Calories</a></li>
+                    <li><a href="#macros">Optimal Macros for Fat Loss</a></li>
+                    <li><a href="#avoid">5 Common Weight Loss Mistakes to Avoid</a></li>
+                    <li><a href="#adjust">When and How to Adjust Your Plan</a></li>
+                    <li><a href="#plateau">Breaking Through Weight Loss Plateaus</a></li>
+                </ul>
+            </div>
+
+            <p>Using your <strong>Total Daily Energy Expenditure (TDEE)</strong> is the most scientific approach to weight loss. Unlike fad diets that prescribe arbitrary calorie limits, a TDEE-based approach personalizes your weight loss plan to your body, activity level, and goals. This guide will show you exactly how to transform your TDEE number into a sustainable weight loss strategy.</p>
+            
+            <div class="warning-box">
+                <p><strong>Important:</strong> The <a href="https://www.niddk.nih.gov/health-information/weight-management/very-low-calorie-diets" target="_blank" rel="noopener">National Institute of Diabetes and Digestive and Kidney Diseases</a> warns against very low-calorie diets (under 1,200 calories for women, 1,500 for men) without medical supervision, as they can cause nutrient deficiencies, muscle loss, and metabolic damage.</p>
+            </div>
+            
+            <h2 id="deficit">The Right Calorie Deficit: Why 15-25% is the Sweet Spot</h2>
+            <p>A calorie deficit means consuming fewer calories than your body burns (TDEE). But <em>how much</em> of a deficit is optimal?</p>
+            
+            <h3>Small Deficit (10-15% below TDEE)</h3>
+            <ul>
+                <li><strong>Best for:</strong> Those with little to lose, active individuals, or long-term lifestyle changes</li>
+                <li><strong>Weight loss rate:</strong> 0.5-1 lb per week</li>
+                <li><strong>Advantages:</strong> Minimal hunger, preserves muscle mass, easier to maintain</li>
+            </ul>
+            
+            <h3>Moderate Deficit (20-25% below TDEE)</h3>
+            <ul>
+                <li><strong>Best for:</strong> Most people with significant weight to lose</li>
+                <li><strong>Weight loss rate:</strong> 1-2 lbs per week (CDC recommended rate)</li>
+                <li><strong>Advantages:</strong> Steady progress while still sustainable</li>
+            </ul>
+            
+            <h3>Large Deficit (30%+ below TDEE)</h3>
+            <ul>
+                <li><strong>Not recommended</strong> for most people without medical supervision</li>
+                <li><strong>Risks:</strong> Muscle loss, nutrient deficiencies, metabolic adaptation, high relapse rate</li>
+            </ul>
+            
+            <h2 id="calculate">Step-by-Step: Calculate Your Weight Loss Calories</h2>
+            
+            <div class="step-box">
+                <h3><span class="step-number">1</span> Calculate Your TDEE</h3>
+                <p>Use our <a href="index.html">TDEE Calculator</a> to get your personalized Total Daily Energy Expenditure. For example, let's say your TDEE is <strong>2,400 calories</strong>.</p>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">2</span> Apply the Appropriate Deficit</h3>
+                <p>For moderate weight loss (20% deficit):<br>
+                2,400 calories × 0.80 = <strong>1,920 calories per day</strong></p>
+                <p>This creates a daily deficit of 480 calories (2,400 - 1,920), which equals about <strong>1 lb of fat loss per week</strong> (480 × 7 = 3,360 calories ≈ 1 lb of fat).</p>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">3</span> Set Your Protein Target</h3>
+                <p>Protein is crucial for preserving muscle during weight loss. The <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0174-y" target="_blank" rel="noopener">International Society of Sports Nutrition</a> recommends <strong>1.6-2.2 grams of protein per kg of body weight</strong> for those in a calorie deficit.</p>
+                <div class="example-box">
+                    <strong>Example:</strong> For a 180 lb (82 kg) person:<br>
+                    82 kg × 2.0 g/kg = <strong>164 grams of protein daily</strong><br>
+                    At 4 calories per gram: 164 × 4 = 656 calories from protein
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <h3><span class="step-number">4</span> Distribute Remaining Calories</h3>
+                <p>After protein, allocate remaining calories between fats and carbohydrates based on preference:</p>
+                <ul>
+                    <li><strong>Fats:</strong> 20-30% of total calories (0.5-1g per kg)</li>
+                    <li><strong>Carbs:</strong> Remainder of calories</li>
+                </ul>
+            </div>
+            
+            <h2 id="macros">Complete Weight Loss Macro Example</h2>
+            <div class="example-box">
+                <p><strong>Person:</strong> 35-year-old female, 160 lbs, TDEE = 2,150 calories</p>
+                <p><strong>Weight Loss Target:</strong> 1,720 calories (20% deficit)</p>
+                <p><strong>Macros:</strong></p>
+                <ul>
+                    <li><strong>Protein:</strong> 73 kg × 1.8 g/kg = 131g (524 calories)</li>
+                    <li><strong>Fat:</strong> 25% of calories = 48g (432 calories)</li>
+                    <li><strong>Carbs:</strong> Remaining calories = 191g (764 calories)</li>
+                </ul>
+                <p><strong>Daily Totals:</strong> 1,720 calories | 131g P | 48g F | 191g C</p>
+            </div>
+            
+            <h2 id="avoid">5 Common Weight Loss Mistakes to Avoid</h2>
+            
+            <h3>1. Creating Too Large a Deficit</h3>
+            <p>Aggressive restriction triggers adaptive thermogenesis—your metabolism slows to conserve energy. A <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3673773/" target="_blank" rel="noopener">2012 study</a> found that contestants from "The Biggest Loser" experienced metabolic slowing of up to 800 calories per day, making weight regain likely.</p>
+            
+            <h3>2. Not Tracking Accurately</h3>
+            <p>Research shows people underestimate food intake by 20-50%. Use a food scale for the first few weeks to calibrate your eye.</p>
+            
+            <h3>3. Neglecting Resistance Training</h3>
+            <p>Cardio burns calories but resistance training preserves muscle—and muscle burns more calories at rest. Include 2-3 strength sessions weekly.</p>
+            
+            <h3>4. Ignoring Non-Scale Victories</h3>
+            <p>Scale weight fluctuates daily. Track measurements, photos, clothing fit, and energy levels too.</p>
+            
+            <h3>5. Not Planning for Maintenance</h3>
+            <p>What happens when you reach your goal? Reverse dieting (gradually increasing calories) helps reset your metabolism.</p>
+            
+            <h2 id="adjust">When and How to Adjust Your Weight Loss Plan</h2>
+            <p>Your TDEE decreases as you lose weight. Every 10-15 lbs lost, recalculate your TDEE and adjust your calorie target accordingly.</p>
+            
+            <p><strong>Signs you need to adjust:</strong></p>
+            <ul>
+                <li>Weight plateau for 3+ weeks despite consistency</li>
+                <li>Excessive hunger or fatigue</li>
+                <li>Loss of menstrual cycle (women)</li>
+                <li>Noticeable muscle loss or strength decline</li>
+            </ul>
+            
+            <div class="success-box">
+                <p><strong>Pro Tip:</strong> Implement a "diet break" every 8-12 weeks—eat at maintenance calories for 1-2 weeks. This can help normalize hormone levels, boost metabolism, and improve adherence to your plan.</p>
+            </div>
+            
+            <h2 id="plateau">Breaking Through Weight Loss Plateaus</h2>
+            <p>If you've hit a plateau despite a consistent deficit:</p>
+            <ol>
+                <li><strong>Reassess your TDEE:</strong> You may need a smaller deficit now</li>
+                <li><strong>Increase NEAT:</strong> Add 2,000-3,000 extra steps daily</li>
+                <li><strong>Try protein cycling:</strong> Higher protein days (2.4g/kg) followed by moderate days</li>
+                <li><strong>Change training stimulus:</strong> Swap steady-state cardio for HIIT or increase weights</li>
+                <li><strong>Check for hidden calories:</strong> Oils, dressings, beverages, or portion creep</li>
+            </ol>
+            
+            <div class="step-box" style="text-align: center;">
+                <h3>Ready to Calculate Your Personal Weight Loss Plan?</h3>
+                <p>Our TDEE calculator automatically creates a personalized calorie deficit and macro plan based on your goal weight and timeline.</p>
+                <a href="index.html" class="btn"><i class="fas fa-calculator"></i> Calculate My Weight Loss Calories</a>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2 class="cta-title">Want to Master Your TDEE?</h2>
+                <p>Explore our other comprehensive guides to understand and optimize your Total Daily Energy Expenditure.</p>
+                <div class="cta-buttons">
+                    <a href="what-is-tdee.html" class="cta-btn">What is TDEE? A Complete Guide</a>
+                    <a href="tdee-calculator-for-women.html" class="cta-btn">Women's TDEE Guide</a>
+                    <a href="accurate-tdee-calculator.html" class="cta-btn primary">Are TDEE Calculators Accurate?</a>
+                </div>
+            </div>
+            
+            <h3>Additional Resources</h3>
+            <p>For more specific guidance, explore our related articles:</p>
+            <ul>
+                <li><a href="what-is-tdee.html">What is TDEE? The Complete Guide</a> (understand the fundamentals)</li>
+                <li><a href="tdee-calculator-for-women.html">TDEE Calculator for Women</a> (gender-specific considerations)</li>
+                <li><a href="accurate-tdee-calculator.html">How Accurate Are TDEE Calculators?</a> (fine-tune your approach)</li>
+                <li>Best Foods for Weight Loss (coming soon)</li>
+                <li>How to Track Calories Without Going Crazy (coming soon)</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>© 2026 TheTDEEcalculator.net | Weight loss results vary. This information is educational, not medical advice. Consult a healthcare provider before starting any weight loss program.</p>
+        <div class="footer-nav">
+            <a href="index.html">Calculator</a> | 
+            <a href="what-is-tdee.html">What is TDEE</a> | 
+            <a href="tdee-for-weight-loss.html">Weight Loss Guide</a> | 
+            <a href="tdee-calculator-for-women.html">Women's Guide</a> |
+            <a href="accurate-tdee-calculator.html">Accuracy Guide</a> |
+            <a href="privacy-policy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms</a> |
+            <a href="contact.html">Contact</a>
+        </div>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
+            Always consult with a healthcare professional before starting any weight loss program.
+        </p>
+    </footer>
+</body>
+</html>

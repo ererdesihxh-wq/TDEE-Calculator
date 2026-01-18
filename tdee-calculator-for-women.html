@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDEE Calculator for Women: A Complete Guide to Female Metabolism & Hormones</title>
+    <meta name="description" content="Specialized TDEE guide for women. Learn how menstrual cycle, hormones, pregnancy, and menopause affect energy expenditure and how to calculate TDEE accurately for female physiology.">
+    <meta name="keywords" content="tdee calculator women, tdee calculator for women, how to calculate tdee for female, female metabolism, women's tdee, menstrual cycle tdee">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #385d8a;
+            --secondary: #6bbf8a;
+            --female: #e84393;
+            --female-light: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f5f7fa; color: var(--dark); line-height: 1.7; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header { background: linear-gradient(135deg, #e84393 0%, #d63031 100%); color: white; padding: 2rem 0 0 0; margin-bottom: 2rem; }
+        .header-content { text-align: center; padding: 0 20px 2rem 20px; }
+        .logo { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .meta { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+        
+        /* Navigation Styles */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 0 20px;
+        }
+        
+        .nav-menu li {
+            margin: 0;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+        
+        .content-card { background: white; border-radius: 10px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 40px; }
+        h2 { color: #d63031; margin: 2.5rem 0 1.2rem; font-size: 1.8rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        h3 { color: var(--dark); margin: 1.8rem 0 0.8rem; font-size: 1.3rem; }
+        p { margin-bottom: 1.2rem; }
+        ul, ol { margin: 1rem 0 1rem 2rem; }
+        li { margin-bottom: 0.5rem; }
+        .hormone-box { background: #fff5f7; border-left: 4px solid var(--female); padding: 1.2rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .phase-box { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #eee; }
+        .phase-title { font-weight: 600; color: var(--female); margin-bottom: 0.5rem; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+        .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .comparison-table th { background: #f8f9fa; font-weight: 600; }
+        .comparison-table tr:nth-child(even) { background: #f8f9fa; }
+        .cycle-visual { display: flex; height: 100px; margin: 2rem 0; border-radius: 8px; overflow: hidden; }
+        .cycle-phase { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-weight: 600; }
+        .btn { display: inline-block; background: #e84393; color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 10px; transition: var(--transition); }
+        .btn:hover { background: #d63031; transform: translateY(-2px); }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav {
+            margin: 15px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            h1 { font-size: 2rem; }
+            .content-card { padding: 25px; }
+            .cycle-visual { flex-direction: column; height: auto; }
+            .cycle-phase { padding: 15px 0; }
+            .nav-menu {
+                justify-content: center;
+                gap: 3px;
+            }
+            
+            .nav-menu a {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-menu a i {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-menu a {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+        
+        .toc { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+        .toc h3 { margin-top: 0; }
+        .toc ul { margin: 0.5rem 0 0 1.5rem; }
+        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        
+        /* CTA Section */
+        .cta-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">TheTDEEcalculator.net</div>
+                <h1>TDEE Calculator for Women: The Complete Guide to Female Metabolism</h1>
+                <div class="meta"><i class="far fa-clock"></i> Updated: January 2026 | <i class="fas fa-venus"></i> Women's Health Specialized</div>
+            </div>
+            
+            <!-- 导航栏 -->
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="what-is-tdee.html"><i class="fas fa-book"></i> What is TDEE?</a></li>
+                    <li><a href="tdee-for-weight-loss.html"><i class="fas fa-weight"></i> Weight Loss Guide</a></li>
+                    <li><a href="tdee-calculator-for-women.html" class="active"><i class="fas fa-venus"></i> Women's Guide</a></li>
+                    <li><a href="accurate-tdee-calculator.html"><i class="fas fa-search"></i> Accuracy Guide</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-card">
+            <div class="toc">
+                <h3><i class="fas fa-list"></i> This Guide Covers:</h3>
+                <ul>
+                    <li><a href="#difference">How Female TDEE Differs from Male</a></li>
+                    <li><a href="#cycle">Your Menstrual Cycle & TDEE: The 4-Phase Guide</a></li>
+                    <li><a href="#hormones">Key Hormones That Affect Women's Metabolism</a></li>
+                    <li><a href="#calculate">How to Calculate TDEE Accurately as a Woman</a></li>
+                    <li><a href="#pregnant">TDEE During Pregnancy & Breastfeeding</a></li>
+                    <li><a href="#menopause">Metabolic Changes During Perimenopause & Menopause</a></li>
+                    <li><a href="#strategy">Weight Management Strategies for Women</a></li>
+                </ul>
+            </div>
+
+            <p>If you're a woman who has ever used a standard TDEE calculator only to find the results don't match your reality, you're not imagining things. <strong>Female metabolism operates differently</strong> than male metabolism, influenced by hormones, menstrual cycles, and distinct physiological adaptations. This guide explains exactly how to calculate and work with your TDEE as a woman.</p>
+            
+            <div class="hormone-box">
+                <p><strong>Key Fact:</strong> Women typically have TDEEs <strong>5-10% lower</strong> than men of the same height, weight, and activity level due to higher body fat percentages, smaller organ mass, and hormonal profiles, according to research in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4535332/" target="_blank" rel="noopener">International Journal of Endocrinology</a>.</p>
+            </div>
+            
+            <h2 id="difference">How Female TDEE Fundamentally Differs from Male</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>Typical Female Pattern</th>
+                        <th>Impact on TDEE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Body Composition</strong></td>
+                        <td>Higher body fat % (essential: 10-13% vs male 2-5%)</td>
+                        <td>Lowers BMR by ~100-200 calories compared to same-weight male</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Muscle Mass</strong></td>
+                        <td>Lower total muscle mass (without training)</td>
+                        <td>Reduces both BMR and exercise calorie burn</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hormonal Fluctuations</strong></td>
+                        <td>Monthly cycles, pregnancy, menopause transitions</td>
+                        <td>Can alter TDEE by 100-300 calories across phases</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Energy Partitioning</strong></td>
+                        <td>Preferentially stores fat for reproductive readiness</td>
+                        <td>May resist fat loss at same calorie deficit as males</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 id="cycle">Your Menstrual Cycle & TDEE: The 4-Phase Guide</h2>
+            
+            <div class="cycle-visual">
+                <div class="cycle-phase" style="background: #e84393;">Menstrual<br>Phase 1-5</div>
+                <div class="cycle-phase" style="background: #fd79a8;">Follicular<br>Phase 6-14</div>
+                <div class="cycle-phase" style="background: #e84393;">Ovulation<br>Phase 14-16</div>
+                <div class="cycle-phase" style="background: #d63031;">Luteal<br>Phase 17-28</div>
+            </div>
+            
+            <div class="phase-box">
+                <div class="phase-title">1. Menstrual Phase (Days 1-5)</div>
+                <p><strong>Hormones:</strong> Low estrogen and progesterone</p>
+                <p><strong>Metabolic rate:</strong> Lowest of the cycle (may be 5-10% below average)</p>
+                <p><strong>Practical tip:</strong> This is when standard TDEE calculations are most accurate. Good time for steady-state cardio.</p>
+            </div>
+            
+            <div class="phase-box">
+                <div class="phase-title">2. Follicular Phase (Days 6-14)</div>
+                <p><strong>Hormones:</strong> Rising estrogen</p>
+                <p><strong>Metabolic rate:</strong> Gradually increases to baseline</p>
+                <p><strong>Practical tip:</strong> Best time for fat loss efforts. Insulin sensitivity is higher. Strength gains come easier.</p>
+            </div>
+            
+            <div class="phase-box">
+                <div class="phase-title">3. Ovulation (Days 14-16)</div>
+                <p><strong>Hormones:</strong> Estrogen peaks, LH surge</p>
+                <p><strong>Metabolic rate:</strong> At or slightly above baseline</p>
+                <p><strong>Practical tip:</strong> Highest energy levels. Ideal for high-intensity workouts and performance testing.</p>
+            </div>
+            
+            <div class="phase-box">
+                <div class="phase-title">4. Luteal Phase (Days 17-28)</div>
+                <p><strong>Hormones:</strong> High progesterone, estrogen secondary peak then drop</p>
+                <p><strong>Metabolic rate:</strong> Increases by 5-10% above baseline (100-300 more calories daily)</p>
+                <p><strong>Practical tip:</strong> Cravings increase due to progesterone. Allow slightly more calories, focus on complex carbs. Strength training feels harder.</p>
+            </div>
+            
+            <div class="hormone-box">
+                <p><strong>Research Insight:</strong> A <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5820195/" target="_blank" rel="noopener">2018 study in the International Journal of Obesity</a> found that energy expenditure is lowest during the menstrual phase and increases by 5-10% during the luteal phase. This explains why you might be hungrier and maintain weight more easily pre-period.</p>
+            </div>
+            
+            <h2 id="hormones">Key Hormones That Affect Women's Metabolism</h2>
+            
+            <h3>Estrogen</h3>
+            <ul>
+                <li><strong>Primary effect:</strong> Improves insulin sensitivity, promotes fat storage in gluteal-femoral area (pear shape)</li>
+                <li><strong>TDEE impact:</strong> Higher estrogen = better nutrient partitioning, slightly lower BMR</li>
+                <li><strong>Cyclical pattern:</strong> Peaks at ovulation, drops pre-menstruation</li>
+            </ul>
+            
+            <h3>Progesterone</h3>
+            <ul>
+                <li><strong>Primary effect:</strong> Increases body temperature (thermogenic), stimulates appetite</li>
+                <li><strong>TDEE impact:</strong> Raises BMR by 5-10% during luteal phase</li>
+                <li><strong>Cyclical pattern:</strong> Highest during luteal phase</li>
+            </ul>
+            
+            <h3>Insulin Sensitivity</h3>
+            <ul>
+                <li><strong>Pattern:</strong> Highest during follicular phase, decreases during luteal phase</li>
+                <li><strong>Practical implication:</strong> Time carbohydrate intake accordingly—more carbs post-ovulation may lead to more fat storage</li>
+            </ul>
+            
+            <h2 id="calculate">How to Calculate TDEE Accurately as a Woman</h2>
+            
+            <h3>Method 1: Cycle-Aware Calculation</h3>
+            <ol>
+                <li>Calculate your TDEE using our <a href="index.html">calculator</a></li>
+                <li>Track your cycle (app like Clue or Flo)</li>
+                <li><strong>Follicular phase:</strong> Use base TDEE or slight deficit (10-15%)</li>
+                <li><strong>Luteal phase:</strong> Add 100-200 calories to base TDEE or reduce deficit</li>
+            </ol>
+            
+            <h3>Method 2: Monthly Average Approach</h3>
+            <p>Calculate TDEE as normal, but understand you'll naturally eat more some weeks and less others. Aim for weekly/monthly calorie goals rather than strict daily numbers.</p>
+            
+            <h3>Method 3: For Those with Irregular Cycles or PCOS</h3>
+            <p>If you have PCOS, insulin resistance may lower your TDEE by 5-20%. Start with a 15% deficit from calculated TDEE, monitor for 4 weeks, then adjust.</p>
+            
+            <h2 id="pregnant">TDEE During Pregnancy & Breastfeeding</h2>
+            
+            <div class="hormone-box">
+                <p><strong>Medical Guidance Required:</strong> The following are general guidelines. Always consult with your obstetrician or registered dietitian for personalized pregnancy nutrition.</p>
+            </div>
+            
+            <h3>First Trimester</h3>
+            <p><strong>TDEE increase:</strong> Minimal (0-100 calories)</p>
+            <p><strong>Focus:</strong> Nutrient density, managing nausea. No need for "eating for two."</p>
+            
+            <h3>Second Trimester</h3>
+            <p><strong>TDEE increase:</strong> Add 340 calories to pre-pregnancy TDEE</p>
+            <p><strong>Focus:</strong> Adequate protein (1.1g/kg), iron, calcium</p>
+            
+            <h3>Third Trimester</h3>
+            <p><strong>TDEE increase:</strong> Add 450 calories to pre-pregnancy TDEE</p>
+            <p><strong>Focus:</strong> Smaller, frequent meals; continued protein emphasis</p>
+            
+            <h3>Breastfeeding</h3>
+            <p><strong>TDEE increase:</strong> Add 500 calories for exclusive breastfeeding</p>
+            <p><strong>Note:</strong> This varies by milk production. Some women need more, others less. Monitor energy and milk supply.</p>
+            
+            <h2 id="menopause">Metabolic Changes During Perimenopause & Menopause</h2>
+            <p>As estrogen declines, women experience:</p>
+            <ul>
+                <li><strong>5-10% decrease in BMR</strong> independent of muscle loss</li>
+                <li>Shift from gynoid (pear) to android (apple) fat distribution</li>
+                <li>Increased visceral fat (higher health risk)</li>
+                <li>Decreased insulin sensitivity</li>
+            </ul>
+            
+            <h3>Menopause TDEE Strategy</h3>
+            <ol>
+                <li>Recalculate TDEE assuming 5-10% lower than pre-menopause</li>
+                <li>Prioritize protein (1.2-1.6g/kg) to preserve muscle</li>
+                <li>Include resistance training 3x weekly (critical for bone density)</li>
+                <li>Consider smaller, more frequent meals to manage blood sugar</li>
+            </ol>
+            
+            <h2 id="strategy">Weight Management Strategies for Women</h2>
+            
+            <h3>1. Cycle-Synced Nutrition & Training</h3>
+            <ul>
+                <li><strong>Follicular:</strong> Calorie deficit, strength training focus</li>
+                <li><strong>Luteal:</strong> Maintenance calories, comfort foods in moderation, yoga/walking</li>
+            </ul>
+            
+            <h3>2. Protein Prioritization</h3>
+            <p>Aim for 1.6-2.2g/kg during fat loss phases to preserve muscle (women lose muscle more easily in deficits).</p>
+            
+            <h3>3. Mindful of "Hidden" Calories</h3>
+            <p>Women's smaller size means a 200-calorie error represents a larger percentage of TDEE than for men.</p>
+            
+            <h3>4. Patience with Scale Fluctuations</h3>
+            <p>Women retain 2-4 lbs of water pre-menstrually. Weigh daily but focus on weekly averages and monthly trends.</p>
+            
+            <div class="phase-box" style="text-align: center;">
+                <h3>Calculate Your Female-Specific TDEE</h3>
+                <p>Our TDEE calculator accounts for sex differences and provides recommendations tailored to female physiology.</p>
+                <a href="index.html" class="btn"><i class="fas fa-calculator"></i> Calculate My TDEE as a Woman</a>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2 class="cta-title">Want to Learn More About TDEE?</h2>
+                <p>Explore our other comprehensive guides to master your energy expenditure and achieve your health goals.</p>
+                <div class="cta-buttons">
+                    <a href="what-is-tdee.html" class="cta-btn">What is TDEE? A Complete Guide</a>
+                    <a href="tdee-for-weight-loss.html" class="cta-btn">How to Lose Weight Using TDEE</a>
+                    <a href="accurate-tdee-calculator.html" class="cta-btn primary">Are TDEE Calculators Accurate?</a>
+                </div>
+            </div>
+            
+            <h3>Related Resources for Women</h3>
+            <ul>
+                <li><a href="what-is-tdee.html">What is TDEE?</a> - Foundation knowledge</li>
+                <li><a href="tdee-for-weight-loss.html">TDEE for Weight Loss</a> - General weight loss strategies</li>
+                <li><a href="accurate-tdee-calculator.html">Are TDEE Calculators Accurate?</a> - Understanding limitations</li>
+                <li>PCOS and Metabolism (coming soon)</li>
+                <li>Menopause Weight Management (coming soon)</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>© 2026 TheTDEEcalculator.net | This information is for educational purposes. Always consult with a healthcare provider, especially regarding pregnancy, medical conditions, or hormonal concerns.</p>
+        <div class="footer-nav">
+            <a href="index.html">Calculator</a> | 
+            <a href="what-is-tdee.html">What is TDEE</a> | 
+            <a href="tdee-for-weight-loss.html">Weight Loss Guide</a> | 
+            <a href="tdee-calculator-for-women.html">Women's Guide</a> |
+            <a href="accurate-tdee-calculator.html">Accuracy Guide</a> |
+            <a href="privacy-policy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms</a> |
+            <a href="contact.html">Contact</a>
+        </div>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
+            This information is based on scientific research but should not replace professional medical advice.
+        </p>
+    </footer>
+</body>
+</html>
