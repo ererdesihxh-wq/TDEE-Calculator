@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDEE Calculator: Calculate Your Total Daily Energy Expenditure | TheTDEEcalculator.net</title>
+    <meta name="google-site-verification" content="OcsjoTrF0nVMu7m7ffztiCjcF5YmtJmrgrcFL53CHcw" />
+    <meta name="description" content="Free TDEE calculator with goal-based recommendations. Calculate your Total Daily Energy Expenditure for weight loss, maintenance, or muscle gain. Get personalized macros and visual results.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #385d8a;
+            --secondary: #6bbf8a;
+            --secondary-dark: #4fa071;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem 0 0 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0 20px 2rem 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Navigation Styles */
+        .main-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+            padding: 0 20px;
+        }
+        
+        .nav-menu li {
+            margin: 0;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                justify-content: center;
+                gap: 3px;
+            }
+            
+            .nav-menu a {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-menu a i {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-menu a {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Calculator Card */
+        .calculator-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            height: fit-content;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+        }
+
+        .units-toggle {
+            display: flex;
+            background: #e9ecef;
+            border-radius: 6px;
+            padding: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .unit-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .unit-btn.active {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .radio-option input {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .radio-option input:checked + label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        select.form-control {
+            appearance: none;
+            padding-right: 40px;
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Goal Selector */
+        .goal-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .goal-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .goal-option input {
+            display: none;
+        }
+
+        .goal-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .goal-option label i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .goal-option input:checked + label {
+            border-color: var(--primary);
+            background: rgba(74, 111, 165, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .goal-option.loss label i { color: var(--danger); }
+        .goal-option.maintain label i { color: var(--primary); }
+        .goal-option.gain label i { color: var(--secondary); }
+
+        /* Calculate Button */
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, var(--secondary) 0%, var(--secondary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(107, 191, 138, 0.3);
+        }
+
+        /* Results Card */
+        .results-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .results-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin: 1.5rem 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .results-details {
+            margin-top: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .goal-recommendation {
+            background: rgba(107, 191, 138, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 2rem;
+        }
+
+        .goal-recommendation h4 {
+            color: var(--secondary-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            height: 250px;
+            margin-top: 2rem;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav {
+            margin: 15px 0;
+        }
+        
+        .footer-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .footer-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .goal-selector {
+                flex-direction: column;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* 新增样式：食物解读卡片 */
+        .food-context-card {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 8px;
+            border: 1px dashed rgba(74, 111, 165, 0.3);
+            font-size: 0.95rem;
+        }
+
+        .food-context-title {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .food-context-text {
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        /* 新增样式：指南卡片网格 */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .guide-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .guide-card.womens-guide { border-left-color: #e84393; }
+        .guide-card.accuracy-guide { border-left-color: var(--warning); }
+
+        .guide-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .guide-features {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
+        }
+
+        .guide-features li {
+            margin-bottom: 8px;
+            padding-left: 24px;
+            position: relative;
+            color: var(--gray);
+        }
+
+        .guide-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .guide-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .guide-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 新增样式：用户反馈按钮 */
+        .feedback-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px dashed #eee;
+            text-align: center;
+        }
+
+        .feedback-question {
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .feedback-btn {
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feedback-btn.yes {
+            background: rgba(107, 191, 138, 0.1);
+            border-color: var(--secondary);
+            color: var(--secondary-dark);
+        }
+
+        .feedback-btn.no {
+            background: rgba(231, 76, 60, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .feedback-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .feedback-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feedback-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feedback-btn {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <div class="logo">
+                        <i class="fas fa-calculator"></i>
+                        <span>TheTDEEcalculator.net</span>
+                    </div>
+                    <div class="tagline">
+                        Calculate Your Total Daily Energy Expenditure with Goal-Based Recommendations
+                    </div>
+                </div>
+                <div class="cta-buttons">
+                    <a href="#calculator" class="cta-btn primary">Calculate Now</a>
+                </div>
+            </div>
+            
+            <!-- 导航栏 -->
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="what-is-tdee.html"><i class="fas fa-book"></i> What is TDEE?</a></li>
+                    <li><a href="tdee-for-weight-loss.html"><i class="fas fa-weight"></i> Weight Loss Guide</a></li>
+                    <li><a href="tdee-calculator-for-women.html"><i class="fas fa-venus"></i> Women's Guide</a></li>
+                    <li><a href="accurate-tdee-calculator.html"><i class="fas fa-search"></i> Accuracy Guide</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="main-content">
+            <!-- Calculator Card -->
+            <div class="calculator-card" id="calculator">
+                <h2 class="card-title"><i class="fas fa-calculator"></i> TDEE Calculator</h2>
+                
+                <!-- Unit Toggle -->
+                <div class="units-toggle">
+                    <button class="unit-btn active" id="imperial-btn">Imperial (lbs, ft)</button>
+                    <button class="unit-btn" id="metric-btn">Metric (kg, cm)</button>
+                </div>
+                
+                <!-- Calculator Form -->
+                <form id="tdee-form">
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label class="form-label" for="age">Age</label>
+                        <input type="number" id="age" class="form-control" min="15" max="80" value="30" required>
+                    </div>
+                    
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="male" name="gender" value="male" checked>
+                                <label for="male">Male</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female">Female</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Weight & Height (Imperial by default) -->
+                    <div class="form-group" id="weight-group">
+                        <label class="form-label" for="weight">Weight</label>
+                        <input type="number" id="weight" class="form-control" min="50" max="500" value="160" step="0.1" required>
+                        <div class="input-hint" id="weight-unit">pounds (lbs)</div>
+                    </div>
+                    
+                    <div class="form-group" id="height-group">
+                        <label class="form-label" for="height">Height</label>
+                        <div id="height-imperial">
+                            <div style="display: flex; gap: 10px;">
+                                <div style="flex: 1;">
+                                    <input type="number" id="feet" class="form-control" min="4" max="7" value="5" required>
+                                    <div class="input-hint">feet</div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <input type="number" id="inches" class="form-control" min="0" max="11" value="9" required>
+                                    <div class="input-hint">inches</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="height-metric" style="display: none;">
+                            <input type="number" id="cm" class="form-control" min="100" max="250" value="175" required>
+                            <div class="input-hint">centimeters (cm)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Level -->
+                    <div class="form-group">
+                        <label class="form-label" for="activity">Activity Level</label>
+                        <div class="select-wrapper">
+                            <select id="activity" class="form-control" required>
+                                <option value="1.2">Sedentary (little or no exercise)</option>
+                                <option value="1.375">Lightly Active (light exercise 1-3 days/week)</option>
+                                <option value="1.55" selected>Moderately Active (moderate exercise 3-5 days/week)</option>
+                                <option value="1.725">Very Active (hard exercise 6-7 days/week)</option>
+                                <option value="1.9">Extremely Active (very hard exercise, physical job)</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Body Fat % (Optional) -->
+                    <div class="form-group">
+                        <label class="form-label" for="bodyfat">Body Fat % <span style="font-weight: normal; color: var(--gray);">(optional)</span></label>
+                        <input type="number" id="bodyfat" class="form-control" min="5" max="60" step="0.1">
+                        <div class="input-hint">Leave empty if unknown. Provides more accurate BMR calculation.</div>
+                    </div>
+                    
+                    <!-- Goal Selector -->
+                    <div class="form-group">
+                        <label class="form-label">Your Goal</label>
+                        <div class="goal-selector">
+                            <div class="goal-option loss">
+                                <input type="radio" id="loss" name="goal" value="loss" checked>
+                                <label for="loss">
+                                    <i class="fas fa-weight"></i>
+                                    <span>Weight Loss</span>
+                                </label>
+                            </div>
+                            <div class="goal-option maintain">
+                                <input type="radio" id="maintain" name="goal" value="maintain">
+                                <label for="maintain">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <span>Maintain</span>
+                                </label>
+                            </div>
+                            <div class="goal-option gain">
+                                <input type="radio" id="gain" name="goal" value="gain">
+                                <label for="gain">
+                                    <i class="fas fa-dumbbell"></i>
+                                    <span>Muscle Gain</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Error Message -->
+                    <div class="error-message" id="error-message">
+                        Please fill in all required fields with valid values.
+                    </div>
+                    
+                    <!-- Calculate Button -->
+                    <button type="submit" class="calculate-btn" id="calculate-btn">
+                        <span>Calculate My TDEE</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Results Card -->
+            <div class="results-card">
+                <div class="results-header">
+                    <h2 class="results-title"><i class="fas fa-chart-line"></i> Your Results</h2>
+                    <div style="color: var(--primary); font-weight: 600;">
+                        <i class="fas fa-user-circle"></i> Personalized
+                    </div>
+                </div>
+                
+                <div id="results-placeholder">
+                    <div style="text-align: center; padding: 40px 20px; color: var(--gray);">
+                        <i class="fas fa-calculator" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.3;"></i>
+                        <h3 style="margin-bottom: 10px;">Your TDEE Results Will Appear Here</h3>
+                        <p>Fill in your information and click "Calculate My TDEE" to see your personalized energy expenditure analysis.</p>
+                    </div>
+                </div>
+                
+                <div id="results-content" style="display: none;">
+                    <!-- TDEE Value -->
+                    <div class="results-value">
+                        <span id="tdee-value">0</span> <span style="font-size: 1rem;">calories/day</span>
+                    </div>
+                    
+                    <!-- Goal Recommendation -->
+                    <div class="goal-recommendation" id="goal-recommendation">
+                        <h4><i class="fas fa-bullseye"></i> For Your Goal: <span id="goal-text">Weight Loss</span></h4>
+                        <p id="goal-description">To lose weight safely, aim for <strong id="goal-calories">0</strong> calories per day. This creates a moderate calorie deficit for steady weight loss.</p>
+                        
+                        <!-- 新增：情景化食物解读 -->
+                        <div class="food-context-card" id="food-context-card" style="display: none;">
+                            <div class="food-context-title">
+                                <i class="fas fa-utensils" style="color: #f39c12;"></i>
+                                <strong>What does this look like in real food?</strong>
+                            </div>
+                            <p class="food-context-text" id="food-context-text">
+                                <!-- 食物解读内容将通过JavaScript动态生成 -->
+                            </p>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Macros Recommendation:</span>
+                            <span class="detail-value" id="macros-recommendation">40% Carbs, 30% Protein, 30% Fat</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Breakdown -->
+                    <div class="results-details">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary-dark);">Detailed Breakdown</h3>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Basal Metabolic Rate (BMR):</span>
+                            <span class="detail-value" id="bmr-value">0 calories</span>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Activity Level Multiplier:</span>
+                            <span class="detail-value" id="activity-value">1.55 (Moderately Active)</span>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Total Daily Energy Expenditure (TDEE):</span>
+                            <span class="detail-value" id="tdee-detail">0 calories/day</span>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <span class="detail-label">Formula Used:</span>
+                            <span class="detail-value" id="formula-used">Mifflin-St Jeor Equation</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="tdeeChart"></canvas>
+                    </div>
+                    
+                    <!-- Next Steps CTA -->
+                    <div class="cta-section" style="margin-top: 2rem; padding: 20px;">
+                        <h4 style="margin-bottom: 10px;">Ready to take the next step?</h4>
+                        <p style="margin-bottom: 15px; color: var(--gray);">Get a personalized meal plan and workout guide tailored to your TDEE and goals.</p>
+                        <div class="cta-buttons">
+                            <a href="what-is-tdee.html" class="cta-btn">Learn About Nutrition</a>
+                            <a href="tdee-for-weight-loss.html" class="cta-btn primary">Create a Meal Plan</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 新增：用户反馈部分 -->
+                    <div class="feedback-section" id="feedback-section" style="display: none;">
+                        <p class="feedback-question">Was this calculation helpful for understanding your energy needs?</p>
+                        <div class="feedback-buttons">
+                            <button class="feedback-btn yes" onclick="handleFeedback('yes')" id="feedback-yes">
+                                <i class="fas fa-thumbs-up"></i> Yes, it was helpful
+                            </button>
+                            <button class="feedback-btn no" onclick="handleFeedback('no')" id="feedback-no">
+                                <i class="fas fa-thumbs-down"></i> Not really
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Information Section - 修改为指南卡片网格 -->
+        <div class="cta-section">
+            <h2 class="cta-title">Want to understand your TDEE results better?</h2>
+            <p>Our comprehensive guides explain how TDEE works, how to use it for your goals, and how to adjust over time.</p>
+            
+            <div class="guide-grid">
+                <!-- 指南卡片 1 -->
+                <div class="guide-card">
+                    <h4>What is TDEE? A Complete Guide</h4>
+                    <ul class="guide-features">
+                        <li><strong>Reveals the 4 components</strong> that make up your daily calorie burn</li>
+                        <li><strong>Compares 3 BMR formulas</strong> for accuracy</li>
+                        <li><strong>Shows how to apply TDEE</strong> for weight loss/gain</li>
+                        <li>Includes scientific references from NIH & Mayo Clinic</li>
+                    </ul>
+                    <a href="what-is-tdee.html" class="guide-btn">Read Full Guide</a>
+                </div>
+                
+                <!-- 指南卡片 2 -->
+                <div class="guide-card">
+                    <h4>How to Lose Weight Using TDEE</h4>
+                    <ul class="guide-features">
+                        <li><strong>Step-by-step plan</strong> for sustainable weight loss</li>
+                        <li><strong>Macro adjustments</strong> for optimal fat burning</li>
+                        <li><strong>Weekly tracking template</strong> to monitor progress</li>
+                        <li>CDC-recommended safe weight loss rates</li>
+                    </ul>
+                    <a href="tdee-for-weight-loss.html" class="guide-btn">Read Full Guide</a>
+                </div>
+                
+                <!-- 指南卡片 3 -->
+                <div class="guide-card womens-guide">
+                    <h4>Women's TDEE Guide</h4>
+                    <ul class="guide-features">
+                        <li><strong>Special considerations</strong> for women's metabolism</li>
+                        <li><strong>Hormonal cycle adjustments</strong> for accurate tracking</li>
+                        <li><strong>Pregnancy & menopause</strong> TDEE considerations</li>
+                        <li>Gender-specific formula adjustments</li>
+                    </ul>
+                    <a href="tdee-calculator-for-women.html" class="guide-btn">Read Full Guide</a>
+                </div>
+                
+                <!-- 指南卡片 4 -->
+                <div class="guide-card accuracy-guide">
+                    <h4>Are TDEE Calculators Accurate?</h4>
+                    <ul class="guide-features">
+                        <li><strong>Learn the margin of error</strong> (±10% typically)</li>
+                        <li><strong>Factors affecting accuracy</strong> (body comp, activity)</li>
+                        <li><strong>How to validate & adjust</strong> your calculated TDEE</li>
+                        <li>Peer-reviewed meta-analysis references</li>
+                    </ul>
+                    <a href="accurate-tdee-calculator.html" class="guide-btn primary">Read Full Guide</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="container">
+        <p>© 2026 TheTDEEcalculator.net | This tool provides estimates based on standardized equations. Individual results may vary. Consult a healthcare professional for personalized advice.</p>
+        <div class="footer-nav">
+            <a href="index.html">Calculator</a> | 
+            <a href="what-is-tdee.html">What is TDEE</a> | 
+            <a href="tdee-for-weight-loss.html">Weight Loss Guide</a> | 
+            <a href="tdee-calculator-for-women.html">Women's Guide</a> |
+            <a href="accurate-tdee-calculator.html">Accuracy Guide</a> |
+            <a href="privacy-policy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms</a> |
+            <a href="contact.html">Contact</a>
+        </div>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
+            This tool provides estimates based on scientific equations. Individual results may vary.
+        </p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const imperialBtn = document.getElementById('imperial-btn');
+        const metricBtn = document.getElementById('metric-btn');
+        const weightInput = document.getElementById('weight');
+        const weightUnit = document.getElementById('weight-unit');
+        const heightImperial = document.getElementById('height-imperial');
+        const heightMetric = document.getElementById('height-metric');
+        const feetInput = document.getElementById('feet');
+        const inchesInput = document.getElementById('inches');
+        const cmInput = document.getElementById('cm');
+        const tdeeForm = document.getElementById('tdee-form');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const errorMessage = document.getElementById('error-message');
+        const resultsPlaceholder = document.getElementById('results-placeholder');
+        const resultsContent = document.getElementById('results-content');
+        const tdeeValue = document.getElementById('tdee-value');
+        const goalText = document.getElementById('goal-text');
+        const goalDescription = document.getElementById('goal-description');
+        const goalCalories = document.getElementById('goal-calories');
+        const macrosRecommendation = document.getElementById('macros-recommendation');
+        const bmrValue = document.getElementById('bmr-value');
+        const activityValue = document.getElementById('activity-value');
+        const tdeeDetail = document.getElementById('tdee-detail');
+        const formulaUsed = document.getElementById('formula-used');
+        const foodContextCard = document.getElementById('food-context-card');
+        const foodContextText = document.getElementById('food-context-text');
+        const feedbackSection = document.getElementById('feedback-section');
+        let tdeeChart = null;
+
+        // Unit Toggle
+        imperialBtn.addEventListener('click', () => {
+            imperialBtn.classList.add('active');
+            metricBtn.classList.remove('active');
+            weightInput.value = 160;
+            weightUnit.textContent = 'pounds (lbs)';
+            heightImperial.style.display = 'block';
+            heightMetric.style.display = 'none';
+            feetInput.value = 5;
+            inchesInput.value = 9;
+        });
+
+        metricBtn.addEventListener('click', () => {
+            metricBtn.classList.add('active');
+            imperialBtn.classList.remove('active');
+            weightInput.value = 73;
+            weightUnit.textContent = 'kilograms (kg)';
+            heightImperial.style.display = 'none';
+            heightMetric.style.display = 'block';
+            cmInput.value = 175;
+        });
+
+        // BMR Calculation Formulas
+        function calculateBMR(age, gender, weight, height, bodyfat) {
+            // Convert height to cm if in imperial
+            let heightCm = height;
+            if (imperialBtn.classList.contains('active')) {
+                // height is already in cm from conversion
+                heightCm = height;
+            }
+            
+            // Convert weight to kg if in imperial
+            let weightKg = weight;
+            if (imperialBtn.classList.contains('active')) {
+                weightKg = weight * 0.453592;
+            }
+            
+            // If body fat percentage is provided, use Katch-McArdle formula (more accurate)
+            if (bodyfat && bodyfat > 0) {
+                const leanBodyMass = weightKg * (1 - (bodyfat / 100));
+                // Katch-McArdle formula: BMR = 370 + (21.6 * lean body mass in kg)
+                return 370 + (21.6 * leanBodyMass);
+            }
+            
+            // Otherwise, use Mifflin-St Jeor formula
+            if (gender === 'male') {
+                // BMR = 10 * weight(kg) + 6.25 * height(cm) - 5 * age + 5
+                return (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+            } else {
+                // BMR = 10 * weight(kg) + 6.25 * height(cm) - 5 * age - 161
+                return (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+            }
+        }
+
+        // TDEE Calculation
+        function calculateTDEE(bmr, activityMultiplier) {
+            return bmr * activityMultiplier;
+        }
+
+        // Goal-based calorie adjustment
+        function adjustCaloriesForGoal(tdee, goal) {
+            switch(goal) {
+                case 'loss':
+                    return {
+                        calories: Math.round(tdee * 0.85), // 15% deficit
+                        description: "To lose weight safely, aim for a moderate calorie deficit of about 15% below your TDEE.",
+                        macros: "40% Carbs, 30% Protein, 30% Fat"
+                    };
+                case 'gain':
+                    return {
+                        calories: Math.round(tdee * 1.10), // 10% surplus
+                        description: "To gain muscle, aim for a modest calorie surplus of about 10% above your TDEE.",
+                        macros: "50% Carbs, 25% Protein, 25% Fat"
+                    };
+                case 'maintain':
+                default:
+                    return {
+                        calories: Math.round(tdee),
+                        description: "To maintain your current weight, aim to consume calories equal to your TDEE.",
+                        macros: "45% Carbs, 25% Protein, 30% Fat"
+                    };
+            }
+        }
+
+        // Get activity level text
+        function getActivityText(multiplier) {
+            const activities = {
+                1.2: "Sedentary (little or no exercise)",
+                1.375: "Lightly Active (light exercise 1-3 days/week)",
+                1.55: "Moderately Active (moderate exercise 3-5 days/week)",
+                1.725: "Very Active (hard exercise 6-7 days/week)",
+                1.9: "Extremely Active (very hard exercise, physical job)"
+            };
+            return activities[multiplier] || "Moderately Active";
+        }
+
+        // 新增：食物情景解读函数
+        function calculateFoodContext(calories) {
+            const foods = [
+                { name: "chicken breasts", caloriesPerUnit: 165, unit: "piece", emoji: "🍗" },
+                { name: "cups of rice", caloriesPerUnit: 205, unit: "cup", emoji: "🍚" },
+                { name: "avocados", caloriesPerUnit: 240, unit: "avocado", emoji: "🥑" },
+                { name: "eggs", caloriesPerUnit: 78, unit: "egg", emoji: "🥚" },
+                { name: "bananas", caloriesPerUnit: 105, unit: "banana", emoji: "🍌" }
+            ];
+            
+            // 计算每种食物的数量
+            const foodItems = foods.map(food => {
+                const quantity = Math.round(calories / food.caloriesPerUnit);
+                return {
+                    ...food,
+                    quantity: quantity,
+                    totalCalories: quantity * food.caloriesPerUnit
+                };
+            });
+            
+            // 按与目标卡路里最接近的排序
+            foodItems.sort((a, b) => Math.abs(a.totalCalories - calories) - Math.abs(b.totalCalories - calories));
+            
+            // 选择最接近的2-3种食物
+            const selectedFoods = foodItems.slice(0, 3);
+            
+            // 构建描述文本
+            const foodDescriptions = selectedFoods.map(food => 
+                `${food.quantity} ${food.emoji} ${food.name}`
+            );
+            
+            const totalSelectedCalories = selectedFoods.reduce((sum, food) => sum + food.totalCalories, 0);
+            const accuracy = Math.round((totalSelectedCalories / calories) * 100);
+            
+            return `That's roughly equivalent to eating ${foodDescriptions.join(" + ")} per day. This combination provides about ${accuracy}% of your daily target.`;
+        }
+
+        // Create or update chart
+        function updateChart(bmr, tdee, goalCalories) {
+            const ctx = document.getElementById('tdeeChart').getContext('2d');
+            
+            if (tdeeChart) {
+                tdeeChart.destroy();
+            }
+            
+            const goalType = document.querySelector('input[name="goal"]:checked').value;
+            let goalLabel = '';
+            if (goalType === 'loss') goalLabel = 'Weight Loss Target';
+            else if (goalType === 'gain') goalLabel = 'Muscle Gain Target';
+            else goalLabel = 'Maintenance Target';
+            
+            tdeeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['BMR', 'Your TDEE', goalLabel],
+                    datasets: [{
+                        label: 'Calories per Day',
+                        data: [Math.round(bmr), Math.round(tdee), goalCalories],
+                        backgroundColor: [
+                            'rgba(74, 111, 165, 0.7)',
+                            'rgba(74, 111, 165, 0.9)',
+                            'rgba(107, 191, 138, 0.9)'
+                        ],
+                        borderColor: [
+                            'rgba(74, 111, 165, 1)',
+                            'rgba(74, 111, 165, 1)',
+                            'rgba(107, 191, 138, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw} calories`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Calories per Day'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 新增：用户反馈处理函数
+        function handleFeedback(type) {
+            const yesBtn = document.getElementById('feedback-yes');
+            const noBtn = document.getElementById('feedback-no');
+            
+            if (type === 'yes') {
+                yesBtn.innerHTML = '<i class="fas fa-check"></i> Thank you!';
+                yesBtn.disabled = true;
+                noBtn.style.display = 'none';
+                
+                // 可以在这里添加发送到分析工具的代码
+                console.log('User feedback: Positive');
+            } else {
+                noBtn.innerHTML = '<i class="fas fa-check"></i> Thanks for feedback';
+                noBtn.disabled = true;
+                yesBtn.style.display = 'none';
+                
+                // 可以在这里添加发送到分析工具的代码
+                console.log('User feedback: Negative');
+            }
+            
+            // 3秒后重置
+            setTimeout(() => {
+                yesBtn.innerHTML = '<i class="fas fa-thumbs-up"></i> Yes, it was helpful';
+                yesBtn.disabled = false;
+                yesBtn.style.display = 'flex';
+                
+                noBtn.innerHTML = '<i class="fas fa-thumbs-down"></i> Not really';
+                noBtn.disabled = false;
+                noBtn.style.display = 'flex';
+            }, 3000);
+        }
+
+        // Form submission
+        tdeeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const originalText = calculateBtn.innerHTML;
+            calculateBtn.innerHTML = '<span class="loading"></span> Calculating...';
+            calculateBtn.disabled = true;
+            
+            // Hide error message
+            errorMessage.style.display = 'none';
+            
+            // Get form values
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const bodyfat = document.getElementById('bodyfat').value ? parseFloat(document.getElementById('bodyfat').value) : null;
+            const activity = parseFloat(document.getElementById('activity').value);
+            const goal = document.querySelector('input[name="goal"]:checked').value;
+            
+            // Get weight and height based on unit system
+            let weight, heightCm;
+            
+            if (imperialBtn.classList.contains('active')) {
+                // Imperial units
+                weight = parseFloat(weightInput.value);
+                const feet = parseInt(feetInput.value);
+                const inches = parseInt(inchesInput.value);
+                heightCm = (feet * 12 + inches) * 2.54;
+            } else {
+                // Metric units
+                weight = parseFloat(weightInput.value);
+                heightCm = parseFloat(cmInput.value);
+            }
+            
+            // Validate inputs
+            if (!age || age < 15 || age > 80) {
+                errorMessage.textContent = "Please enter a valid age between 15 and 80.";
+                errorMessage.style.display = 'block';
+                calculateBtn.innerHTML = originalText;
+                calculateBtn.disabled = false;
+                return;
+            }
+            
+            if (!weight || weight <= 0) {
+                errorMessage.textContent = "Please enter a valid weight.";
+                errorMessage.style.display = 'block';
+                calculateBtn.innerHTML = originalText;
+                calculateBtn.disabled = false;
+                return;
+            }
+            
+            if (!heightCm || heightCm <= 0) {
+                errorMessage.textContent = "Please enter a valid height.";
+                errorMessage.style.display = 'block';
+                calculateBtn.innerHTML = originalText;
+                calculateBtn.disabled = false;
+                return;
+            }
+            
+            // Calculate after a brief delay to show loading state
+            setTimeout(() => {
+                // Calculate BMR and TDEE
+                const bmr = calculateBMR(age, gender, weight, heightCm, bodyfat);
+                const tdee = calculateTDEE(bmr, activity);
+                
+                // Get goal-based adjustments
+                const goalData = adjustCaloriesForGoal(tdee, goal);
+                
+                // 新增：计算食物情景解读
+                const foodContext = calculateFoodContext(goalData.calories);
+                
+                // Update results UI
+                tdeeValue.textContent = Math.round(tdee).toLocaleString();
+                bmrValue.textContent = Math.round(bmr).toLocaleString() + " calories";
+                activityValue.textContent = `${activity} (${getActivityText(activity)})`;
+                tdeeDetail.textContent = Math.round(tdee).toLocaleString() + " calories/day";
+                
+                // Set formula used
+                formulaUsed.textContent = bodyfat && bodyfat > 0 ? 
+                    "Katch-McArdle Formula (using body fat %)" : 
+                    "Mifflin-St Jeor Equation";
+                
+                // Update goal-specific content
+                goalText.textContent = goal === 'loss' ? 'Weight Loss' : 
+                                     goal === 'gain' ? 'Muscle Gain' : 'Weight Maintenance';
+                goalDescription.textContent = goalData.description;
+                goalCalories.textContent = goalData.calories.toLocaleString();
+                macrosRecommendation.textContent = goalData.macros;
+                
+                // 新增：更新食物解读
+                foodContextText.textContent = foodContext;
+                foodContextCard.style.display = 'block';
+                
+                // Update chart
+                updateChart(bmr, tdee, goalData.calories);
+                
+                // 新增：显示用户反馈部分
+                feedbackSection.style.display = 'block';
+                
+                // Show results
+                resultsPlaceholder.style.display = 'none';
+                resultsContent.style.display = 'block';
+                
+                // Scroll to results
+                resultsContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Reset button
+                calculateBtn.innerHTML = originalText;
+                calculateBtn.disabled = false;
+            }, 600);
+        });
+
+        // Initialize with a sample calculation
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set default values and trigger a calculation
+            setTimeout(() => {
+                tdeeForm.dispatchEvent(new Event('submit'));
+            }, 500);
+        });
+    </script>
+</body>
+</html>
