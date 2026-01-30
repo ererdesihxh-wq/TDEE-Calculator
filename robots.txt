@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# 禁止抓取隐私政策和联系页面
+Disallow: /privacy-policy.html
+Disallow: /contact.html
+
+# 改为指向www版本
+Sitemap: https://www.thetdeecalculator.net/sitemap.xml
